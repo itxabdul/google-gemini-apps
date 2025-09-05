@@ -15,6 +15,9 @@ import { initChatSession, sendMessageAndGetStream } from './services/geminiServi
 import { fetchImagesForItinerary } from './services/unsplashService';
 import type { UnsplashImageData } from './services/unsplashService';
 
+// @ts-ignore
+const pako = window.pako;
+
 
 const parseAIResponse = (responseText: string): { summary: string; jsonData: any | null } => {
   const separator = '---JSON_SEPARATOR---';
@@ -69,30 +72,57 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    const key = sessionStorage.getItem('UNSPLASH_API_KEY');
-    if (!key) {
-      setIsApiKeyModalOpen(true);
-    }
-    
-    const initChat = () => {
+    // Check for shared plan in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedPlanData = urlParams.get('plan');
+
+    if (sharedPlanData) {
       try {
-        const chatSession = initChatSession();
-        setChat(chatSession);
-        setMessages([initialMessage]);
+        const decoded = atob(decodeURIComponent(sharedPlanData));
+        const charData = decoded.split('').map(x => x.charCodeAt(0));
+        const binData = new Uint8Array(charData);
+        const decompressed = pako.inflate(binData, { to: 'string' });
+        const plan = JSON.parse(decompressed);
+        setItineraryPlan(plan);
+        setAppState('detailed_itinerary');
+        
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
       } catch (e) {
-        const errorMessage = e instanceof Error ? e.message : "An unknown error occurred during initialization.";
-        setError(errorMessage);
-        setMessages([{
-          id: 'error-init',
-          sender: 'ai',
-          summary: `There was an error initializing the AI Concierge: ${errorMessage}`,
-          jsonData: null,
-          isError: true
-        }]);
+        console.error("Failed to load shared plan:", e);
+        // Fallback to normal initialization
+        initializeApp();
       }
-    };
-    initChat();
+    } else {
+        initializeApp();
+    }
   }, []);
+
+  const initializeApp = () => {
+      const key = sessionStorage.getItem('UNSPLASH_API_KEY');
+      if (!key) {
+        setIsApiKeyModalOpen(true);
+      }
+      
+      const initChat = () => {
+        try {
+          const chatSession = initChatSession();
+          setChat(chatSession);
+          setMessages([initialMessage]);
+        } catch (e) {
+          const errorMessage = e instanceof Error ? e.message : "An unknown error occurred during initialization.";
+          setError(errorMessage);
+          setMessages([{
+            id: 'error-init',
+            sender: 'ai',
+            summary: `There was an error initializing the AI Concierge: ${errorMessage}`,
+            jsonData: null,
+            isError: true
+          }]);
+        }
+      };
+      initChat();
+  }
 
   useEffect(() => {
     if (!itineraryPlan || (appState !== 'detailed_itinerary' && appState !== 'confirmation')) {

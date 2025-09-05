@@ -11,6 +11,10 @@ An AI-powered luxury travel planner that crafts ultra-detailed, climate-smart it
 - **Visual Itinerary Summary**: Review a high-level, interactive summary of your trip.
 - **Drag & Drop Reordering**: Intuitively rearrange itinerary segments to customize your schedule.
 - **Rich Itinerary Details**: Dive into a day-by-day view of your plan, beautifully illustrated with images from the Unsplash API.
+- **Interactive Map View**: Toggle to an interactive map displaying all your itinerary locations as pins for a clear geographical overview.
+- **Calendar Integration**: Export your entire itinerary as an `.ics` file to easily import into Google Calendar, Apple Calendar, or Outlook.
+- **Collaborative Planning**: Generate a unique, compressed link to share a read-only version of your itinerary with travel companions.
+- **PDF Export**: Download a beautifully formatted PDF of your itinerary with images for offline viewing or printing.
 - **Seamless Booking Flow**: Proceed from drafting to a final confirmation and booking screen.
 - **Responsive & Elegant UI**: A clean, modern interface built with React and Tailwind CSS, designed for a premium user experience.
 
@@ -19,6 +23,8 @@ An AI-powered luxury travel planner that crafts ultra-detailed, climate-smart it
 - **Frontend**: [React](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/), [Tailwind CSS](https://tailwindcss.com/)
 - **AI**: [Google Gemini API (`@google/genai`)](https://ai.google.dev/docs)
 - **Imagery**: [Unsplash API](https://unsplash.com/developers)
+- **Mapping**: [Leaflet.js](https://leafletjs.com/)
+- **Utilities**: [jsPDF](https://github.com/parallax/jsPDF) & [html2canvas](https://html2canvas.hertzen.com/) (for PDF export), [ics.js](https://github.com/adamgibbons/ics) (for calendar files), [pako](https://github.com/nodeca/pako) (for link compression)
 
 ## 🚀 Getting Started
 
@@ -62,7 +68,8 @@ Once the application is running:
 3.  Adjust your preferences (Travel Style, Dietary Needs, etc.) in the "Traveler Preferences" section. These are sent to the AI with every message.
 4.  When the AI has enough information, it will generate a visual summary of the itinerary. You can drag and drop segments to reorder them.
 5.  Click "Approve & View Details" to see the full, day-by-day itinerary with images.
-6.  Proceed through the confirmation and "booking" steps to complete the flow.
+6.  Use the buttons in the header to switch to Map View, export to PDF, export to your Calendar, or Share the plan via a link.
+7.  Proceed through the confirmation and "booking" steps to complete the flow.
 
 ## 📄 License
 
