@@ -27,6 +27,8 @@
               'fade-in': 'fadeIn 0.5s ease-out forwards',
               'slide-up': 'slideUp 0.5s ease-out forwards',
               'pulse-slow': 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'background-pan': 'backgroundPan 15s ease infinite',
+              'pop-in': 'popIn 0.3s ease-out forwards',
             },
             keyframes: {
               fadeIn: {
@@ -40,6 +42,15 @@
               pulse: {
                 '50%': { opacity: .5 },
               },
+              backgroundPan: {
+                '0%': { backgroundPosition: '0% 50%' },
+                '50%': { backgroundPosition: '100% 50%' },
+                '100%': { backgroundPosition: '0% 50%' },
+              },
+              popIn: {
+                '0%': { opacity: '0', transform: 'scale(0.5)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              }
             },
           }
         }
@@ -67,9 +78,9 @@
     border: 1px solid #E2E8F0; /* brand-border */
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   }
-  .animate-stagger-slide .animate-item {
+  .animate-slide-up {
     opacity: 0;
-    animation: slideUp 0.6s ease-out forwards;
+    animation: slideUp 0.5s ease-out forwards;
   }
   .input-styled {
     background-color: #F8F9FA;

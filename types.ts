@@ -13,3 +13,5 @@ export interface Preferences {
   accessibilityNeeds: string;
   accommodationTypes: string[];
 }
+
+export type AppState = 'chatting' | 'visual_summary' | 'detailed_itinerary' | 'confirmation' | 'confirmed';

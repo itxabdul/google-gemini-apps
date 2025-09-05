@@ -1,4 +1,4 @@
-import { GoogleGenAI, type GenerateContentResponse, type Chat } from "@google/genai";
+import { GoogleGenAI, type Chat } from "@google/genai";
 import { SYSTEM_PROMPT } from '../constants';
 
 let ai: GoogleGenAI | null = null;
@@ -13,30 +13,25 @@ const getAI = () => {
     return ai;
 };
 
-// Fix: Use function overloads to ensure TypeScript correctly infers the return type based on the arguments.
-// This resolves type errors in App.tsx where the return type was ambiguous (Chat | Promise<string>).
-export function sendMessageToAI(chat: null, message: null): Chat;
-export function sendMessageToAI(chat: Chat, message: string): Promise<string>;
-export function sendMessageToAI(chat: Chat | null, message: string | null): Chat | Promise<string> {
+export const initChatSession = (): Chat => {
     const genAI = getAI();
+    return genAI.chats.create({
+        model: 'gemini-2.5-flash',
+        config: {
+            systemInstruction: SYSTEM_PROMPT,
+        },
+    });
+};
 
-    if (!chat) {
-        return genAI.chats.create({
-            model: 'gemini-2.5-flash',
-            config: {
-                systemInstruction: SYSTEM_PROMPT,
-            },
-        });
-    }
 
-    if (message === null) {
-        throw new Error("Message cannot be null when a chat session is provided.");
+export const sendMessageAndGetStream = async (chat: Chat, message: string): Promise<AsyncGenerator<string, any, unknown>> => {
+    const result = await chat.sendMessageStream({ message });
+
+    async function* streamGenerator() {
+        for await (const chunk of result) {
+            yield chunk.text;
+        }
     }
     
-    const send = async () => {
-        const response: GenerateContentResponse = await chat.sendMessage({ message: message });
-        return response.text;
-    };
-
-    return send();
+    return streamGenerator();
 };
