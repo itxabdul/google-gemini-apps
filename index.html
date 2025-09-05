@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxe Concierge AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-bg': '#F8F7F4', // Creamy, warm off-white
+              'brand-surface': '#FFFFFF', // Pure white for cards
+              'brand-border': '#E2E8F0', // Soft grey for borders
+              'brand-text-primary': '#1A202C', // Deep charcoal
+              'brand-text-secondary': '#4A5568', // Softer grey for subtext
+              'brand-accent': '#0D9488', // Deep, elegant teal
+              'brand-accent-light': '#F0FDFA', // Very light teal for backgrounds
+            },
+            fontFamily: {
+              sans: ['"Inter"', 'sans-serif'],
+              serif: ['"Playfair Display"', 'serif'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'slide-up': 'slideUp 0.5s ease-out forwards',
+              'pulse-slow': 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              },
+              slideUp: {
+                '0%': { opacity: 0, transform: 'translateY(20px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+              },
+              pulse: {
+                '50%': { opacity: .5 },
+              },
+            },
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.17.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1"
+  }
+}
+</script>
+<style>
+  body {
+    background-color: #F8F7F4; /* brand-bg */
+  }
+  .content-card {
+    background-color: #FFFFFF; /* brand-surface */
+    border: 1px solid #E2E8F0; /* brand-border */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  }
+  .animate-stagger-slide .animate-item {
+    opacity: 0;
+    animation: slideUp 0.6s ease-out forwards;
+  }
+  .input-styled {
+    background-color: #F8F9FA;
+    border: 1px solid #DEE2E6;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  .input-styled:focus {
+    border-color: #0D9488; /* brand-accent */
+    box-shadow: 0 0 0 0.25rem rgb(13 148 136 / 25%);
+  }
+  .checkbox-custom:checked {
+    background-color: #0D9488; /* brand-accent */
+    border-color: #0D9488;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  }
+</style>
+</head>
+  <body class="text-brand-text-primary">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
